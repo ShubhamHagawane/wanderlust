@@ -1,0 +1,69 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h2>Join Wanderlust</h2>
+        <p class="text-muted">Choose how you want to get started</p>
+    </div>
+    
+    <div class="row">
+        <!-- Guest Card -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow hover-card">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4" style="font-size: 4rem;">🧳</div>
+                    <h3 class="card-title mb-3">I'm a Guest</h3>
+                    <p class="card-text mb-4">
+                        Find and book unique accommodations around the world
+                    </p>
+                    <ul class="list-unstyled text-start mb-4">
+                        <li class="mb-2">✓ Browse listings</li>
+                        <li class="mb-2">✓ Book accommodations</li>
+                        <li class="mb-2">✓ Write reviews</li>
+                        <li class="mb-2">✓ Create wishlists</li>
+                    </ul>
+                    <a href="/signup/guest" class="btn btn-success btn-lg w-100">
+                        Sign Up as Guest
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Host Card -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow hover-card">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4" style="font-size: 4rem;">🏠</div>
+                    <h3 class="card-title mb-3">I'm a Host</h3>
+                    <p class="card-text mb-4">
+                        Share your space and earn money by hosting travelers
+                    </p>
+                    <ul class="list-unstyled text-start mb-4">
+                        <li class="mb-2">✓ List your property</li>
+                        <li class="mb-2">✓ Manage bookings</li>
+                        <li class="mb-2">✓ Set your own prices</li>
+                        <li class="mb-2">✓ Earn income</li>
+                    </ul>
+                    <a href="/signup/host" class="btn btn-primary btn-lg w-100">
+                        Sign Up as Host
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="text-center mt-4">
+        <p>Already have an account? <a href="/login">Login here</a></p>
+    </div>
+</div>
+
+<style>
+    .hover-card {
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .hover-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2) !important;
+    }
+</style>

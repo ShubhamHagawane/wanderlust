@@ -1,0 +1,61 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="row mt-3">
+    <div class="col-6 offset-3">
+        <h3>Create New Category</h3>
+        <hr>
+        
+        <form action="/categories" method="POST" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="name" class="form-label">Category Name</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="name" 
+                    name="category[name]" 
+                    placeholder="e.g., Beach, Mountain, Villa"
+                    required>
+                <div class="invalid-feedback">Please enter a category name.</div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea 
+                    class="form-control" 
+                    id="description" 
+                    name="category[description]" 
+                    rows="3"
+                    placeholder="Brief description of this category"
+                    required></textarea>
+                <div class="invalid-feedback">Please enter a description.</div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="icon" class="form-label">Icon (Emoji)</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="icon" 
+                    name="category[icon]" 
+                    placeholder="e.g., 🏖️, 🏔️, 🏰, 🏙️"
+                    required>
+                <div class="invalid-feedback">Please enter an icon/emoji.</div>
+                <small class="form-text text-muted">Use emojis: 🏖️ 🏔️ 🏰 🏙️ 🏡 🏞️ 🌴 ⛰️</small>
+            </div>
+            
+            <div class="mb-3">
+                <label for="image" class="form-label">Image URL</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="image" 
+                    name="category[image]" 
+                    placeholder="https://images.unsplash.com/...">
+                <small class="form-text text-muted">Optional - Default image will be used if left empty</small>
+            </div>
+            
+            <button class="btn btn-success">Create Category</button>
+            <a href="/categories" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

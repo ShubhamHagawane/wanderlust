@@ -1,0 +1,85 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="container mt-4">
+    <div class="mb-4">
+        <a href="/host/<%= user._id %>" class="btn btn-outline-secondary mb-3">
+            ← Back to <%= user.username %>'s Profile
+        </a>
+        
+        <h2><%= user.username %>'s All Listings (<%= listings.length %>)</h2>
+        
+        <% if(hostProfile) { %>
+            <p class="text-muted">
+                <% if(hostProfile.isSuperhost) { %>
+                    ⭐ Superhost • 
+                <% } %>
+                <%= hostProfile.totalReviews %> Reviews • 
+                <% if(hostProfile.averageRating > 0) { %>
+                    ⭐ <%= hostProfile.averageRating %> Rating
+                <% } %>
+            </p>
+        <% } %>
+    </div>
+    
+    <% if(listings.length === 0) { %>
+        <div class="alert alert-info">
+            <p><%= user.username %> hasn't created any listings yet.</p>
+            <% if(currUser && currUser._id.equals(user._id)) { %>
+                <a href="/listings/new" class="btn btn-primary">Create Your First Listing</a>
+            <% } %>
+        </div>
+    <% } else { %>
+        <div class="row">
+            <% for(let listing of listings) { %>
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <a href="/listings/<%= listing._id %>" class="text-decoration-none">
+                        <div class="card listing-card h-100">
+                            <img 
+                                src="<%= listing.image %>" 
+                                class="card-img-top" 
+                                alt="<%= listing.title %>"
+                                style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <% if(listing.category) { %>
+                                    <span class="badge bg-primary mb-2">
+                                        <%= listing.category.icon %> <%= listing.category.name %>
+                                    </span>
+                                <% } %>
+                                
+                                <h6 class="card-title"><%= listing.title %></h6>
+                                <p class="card-text text-muted small">
+                                    <%= listing.location %>, <%= listing.country %>
+                                </p>
+                                
+                                <% if(listing.amenities && listing.amenities.length > 0) { %>
+                                    <div class="mb-2">
+                                        <% for(let i = 0; i < Math.min(3, listing.amenities.length); i++) { %>
+                                            <span class="badge bg-light text-dark" style="font-size: 0.7rem;">
+                                                <%= listing.amenities[i].icon %>
+                                            </span>
+                                        <% } %>
+                                    </div>
+                                <% } %>
+                                
+                                <p class="card-text">
+                                    <strong>&#8377;<%= listing.price.toLocaleString("en-IN") %></strong> / night
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            <% } %>
+        </div>
+    <% } %>
+</div>
+
+<style>
+    .listing-card {
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .listing-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+</style>

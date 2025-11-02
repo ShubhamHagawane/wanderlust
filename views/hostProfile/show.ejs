@@ -1,0 +1,149 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- Left Column - Host Info -->
+        <div class="col-md-4">
+            <div class="card sticky-top" style="top: 20px;">
+                <div class="card-body text-center">
+                    <img 
+                        src="<%= hostProfile.profilePicture %>" 
+                        alt="<%= user.username %>" 
+                        class="rounded-circle mb-3" 
+                        style="width: 150px; height: 150px; object-fit: cover;">
+                    
+                    <h3><%= user.username %></h3>
+                    
+                    <% if(hostProfile.isSuperhost) { %>
+                        <span class="badge bg-danger mb-3">⭐ Superhost</span>
+                    <% } %>
+                    
+                    <hr>
+                    
+                    <!-- Verifications -->
+                    <div class="text-start mb-3">
+                        <h6><strong><%= user.username %>'s confirmed information</strong></h6>
+                        <% if(hostProfile.verifications.email) { %>
+                            <p class="mb-1">✓ Email address</p>
+                        <% } %>
+                        <% if(hostProfile.verifications.phone) { %>
+                            <p class="mb-1">✓ Phone number</p>
+                        <% } %>
+                        <% if(hostProfile.verifications.identity) { %>
+                            <p class="mb-1">✓ Identity</p>
+                        <% } %>
+                    </div>
+                    
+                    <hr>
+                    
+                    <!-- Stats -->
+                    <div class="text-start">
+                        <p class="mb-2">
+                            <strong><%= hostProfile.totalListings %></strong> Listings
+                        </p>
+                        <p class="mb-2">
+                            <strong><%= hostProfile.totalReviews %></strong> Reviews
+                        </p>
+                        <% if(hostProfile.averageRating > 0) { %>
+                            <p class="mb-2">
+                                <strong>⭐ <%= hostProfile.averageRating %></strong> Average Rating
+                            </p>
+                        <% } %>
+                        <p class="mb-2">
+                            <strong>Response rate:</strong> <%= hostProfile.responseRate %>%
+                        </p>
+                        <p class="mb-2">
+                            <strong>Response time:</strong> <%= hostProfile.responseTime %>
+                        </p>
+                    </div>
+                    
+                    <hr>
+                    
+                    <% if(currUser && currUser._id.equals(user._id)) { %>
+                        <a href="/host/<%= user._id %>/edit" class="btn btn-primary w-100">
+                            Edit Profile
+                        </a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Column - About & Listings -->
+        <div class="col-md-8">
+            <!-- About Section -->
+            <div class="mb-4">
+                <h4>About <%= user.username %></h4>
+                <hr>
+                
+                <% if(hostProfile.bio) { %>
+                    <p><%= hostProfile.bio %></p>
+                <% } else { %>
+                    <p class="text-muted">No bio available yet.</p>
+                <% } %>
+                
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <p><strong>Languages:</strong></p>
+                        <% if(hostProfile.languages && hostProfile.languages.length > 0) { %>
+                            <p><%= hostProfile.languages.join(', ') %></p>
+                        <% } else { %>
+                            <p class="text-muted">Not specified</p>
+                        <% } %>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <p><strong>Member since:</strong></p>
+                        <p><%= hostProfile.joinedDate.getFullYear() %></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Listings Section -->
+            <div class="mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4><%= user.username %>'s Listings</h4>
+                    <a href="/host/<%= user._id %>/listings" class="btn btn-outline-primary">
+                        View All (<%= hostProfile.totalListings %>)
+                    </a>
+                </div>
+                <hr>
+                
+                <% if(listings.length === 0) { %>
+                    <div class="alert alert-info">
+                        <p>No listings available yet.</p>
+                    </div>
+                <% } else { %>
+                    <div class="row">
+                        <% for(let listing of listings) { %>
+                            <div class="col-md-6 mb-3">
+                                <a href="/listings/<%= listing._id %>" class="text-decoration-none">
+                                    <div class="card h-100">
+                                        <img 
+                                            src="<%= listing.image %>" 
+                                            class="card-img-top" 
+                                            alt="<%= listing.title %>"
+                                            style="height: 200px; object-fit: cover;">
+                                        <div class="card-body">
+                                            <% if(listing.category) { %>
+                                                <span class="badge bg-primary mb-2">
+                                                    <%= listing.category.icon %> <%= listing.category.name %>
+                                                </span>
+                                            <% } %>
+                                            <h6 class="card-title"><%= listing.title %></h6>
+                                            <p class="card-text text-muted small">
+                                                <%= listing.location %>, <%= listing.country %>
+                                            </p>
+                                            <p class="card-text">
+                                                <strong>&#8377;<%= listing.price.toLocaleString("en-IN") %></strong> / night
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        <% } %>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>

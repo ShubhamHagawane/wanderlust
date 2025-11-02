@@ -1,0 +1,79 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/listings">
+            <i class="fas fa-home"></i> Wanderlust
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/listings">Explore</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/categories">Categories</a>
+                </li>
+                
+                <% if(currUser) { %>
+                    <% if(currUser.userType === 'host') { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/listings/new">
+                                <i class="fas fa-plus-circle"></i> Add Listing
+                            </a>
+                        </li>
+                    <% } %>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="/bookings">My Bookings</a>
+                    </li>
+                    
+                    <% if(currUser.userType === 'host') { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/my-bookings">Booking Requests</a>
+                        </li>
+                    <% } %>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <%= currUser.username %>
+                            <% if(currUser.userType === 'host') { %>
+                                <span class="badge bg-primary">Host</span>
+                            <% } else { %>
+                                <span class="badge bg-secondary">Guest</span>
+                            <% } %>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <% if(currUser.userType === 'host') { %>
+                                <li><a class="dropdown-item" href="/host/<%= currUser._id %>">My Profile</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                            <% } %>
+                            
+                            <% if(currUser.userType === 'guest') { %>
+                                <li>
+                                    <form action="/become-host" method="POST" class="d-inline">
+                                        <button class="dropdown-item" type="submit">
+                                            <i class="fas fa-home"></i> Become a Host
+                                        </button>
+                                    </form>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                            <% } %>
+                            
+                            <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                        </ul>
+                    </li>
+                <% } else { %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/signup">Sign Up</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+</nav>

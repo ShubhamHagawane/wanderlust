@@ -1,0 +1,67 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="row mt-5">
+    <div class="col-6 offset-3">
+        <div class="card shadow">
+            <div class="card-body">
+                <h3 class="card-title text-center mb-4">Sign Up as Host</h3>
+                <p class="text-muted text-center">Share your space and earn money</p>
+                <hr>
+                
+                <form action="/signup/host" method="POST" novalidate class="needs-validation">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="username" 
+                            name="username" 
+                            placeholder="Choose a username"
+                            required>
+                        <div class="invalid-feedback">Username is required.</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input 
+                            type="email" 
+                            class="form-control" 
+                            id="email" 
+                            name="email" 
+                            placeholder="your@email.com"
+                            required>
+                        <div class="invalid-feedback">Valid email is required.</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input 
+                            type="password" 
+                            class="form-control" 
+                            id="password" 
+                            name="password" 
+                            placeholder="Create a password"
+                            required>
+                        <div class="invalid-feedback">Password is required.</div>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <small>
+                            <i class="fas fa-info-circle"></i>
+                            As a host, you'll be able to list properties and manage bookings.
+                        </small>
+                    </div>
+                    
+                    <button class="btn btn-primary w-100 mt-3">Sign Up as Host</button>
+                </form>
+                
+                <hr class="my-4">
+                
+                <div class="text-center">
+                    <p class="mb-2">Already have an account? <a href="/login">Login</a></p>
+                    <p class="mb-0">Just want to book? <a href="/signup/guest">Sign up as Guest</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

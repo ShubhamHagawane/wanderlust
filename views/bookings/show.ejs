@@ -1,0 +1,71 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="row mt-3">
+    <div class="col-8 offset-2">
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Booking Confirmed!</h4>
+            <p>Your booking request has been sent successfully. The host will review and confirm your booking.</p>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h3>Booking Details</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="<%= booking.listing.image %>" class="img-fluid rounded" alt="<%= booking.listing.title %>">
+                    </div>
+                    <div class="col-md-8">
+                        <h4><%= booking.listing.title %></h4>
+                        <p class="text-muted"><%= booking.listing.location %>, <%= booking.listing.country %></p>
+                        
+                        <hr>
+                        
+                        <div class="row">
+                            <div class="col-6">
+                                <p><strong>Check-in:</strong></p>
+                                <p><%= booking.checkIn.toDateString() %></p>
+                            </div>
+                            <div class="col-6">
+                                <p><strong>Check-out:</strong></p>
+                                <p><%= booking.checkOut.toDateString() %></p>
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <p><strong>Guests:</strong> <%= booking.guests %></p>
+                        <p><strong>Nights:</strong> <%= nights %></p>
+                        <p><strong>Status:</strong> 
+                            <% if(booking.status === 'pending') { %>
+                                <span class="badge bg-warning">Pending</span>
+                            <% } else if(booking.status === 'confirmed') { %>
+                                <span class="badge bg-success">Confirmed</span>
+                            <% } else if(booking.status === 'cancelled') { %>
+                                <span class="badge bg-danger">Cancelled</span>
+                            <% } else { %>
+                                <span class="badge bg-secondary"><%= booking.status %></span>
+                            <% } %>
+                        </p>
+                        
+                        <hr>
+                        
+                        <h4>Total Price: &#8377;<%= booking.totalPrice.toLocaleString("en-IN") %></h4>
+                        
+                        <div class="mt-3">
+                            <a href="/listings/<%= booking.listing._id %>" class="btn btn-primary">View Listing</a>
+                            <a href="/bookings" class="btn btn-secondary">My Bookings</a>
+                            
+                            <% if(booking.status === 'pending' || booking.status === 'confirmed') { %>
+                                <form action="/bookings/<%= booking._id %>?_method=DELETE" method="POST" class="d-inline">
+                                    <button class="btn btn-danger" onclick="return confirm('Are you sure you want to cancel this booking?')">Cancel Booking</button>
+                                </form>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

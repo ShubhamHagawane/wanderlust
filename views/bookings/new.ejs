@@ -1,0 +1,105 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="row mt-3">
+    <div class="col-8 offset-2">
+        <h3>Book <%= listing.title %></h3>
+        <hr>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <form action="/listings/<%= listing._id %>/book" method="POST" class="needs-validation" novalidate>
+                    <div class="mb-3">
+                        <label for="checkIn" class="form-label">Check-in Date</label>
+                        <input 
+                            type="date" 
+                            class="form-control" 
+                            id="checkIn" 
+                            name="booking[checkIn]" 
+                            required
+                            min="<%= new Date().toISOString().split('T')[0] %>">
+                        <div class="invalid-feedback">Please select a check-in date.</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="checkOut" class="form-label">Check-out Date</label>
+                        <input 
+                            type="date" 
+                            class="form-control" 
+                            id="checkOut" 
+                            name="booking[checkOut]" 
+                            required
+                            min="<%= new Date().toISOString().split('T')[0] %>">
+                        <div class="invalid-feedback">Please select a check-out date.</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="guests" class="form-label">Number of Guests</label>
+                        <input 
+                            type="number" 
+                            class="form-control" 
+                            id="guests" 
+                            name="booking[guests]" 
+                            min="1" 
+                            value="1" 
+                            required>
+                        <div class="invalid-feedback">Please enter number of guests.</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>Price Details</h5>
+                                <p>&#8377;<%= listing.price.toLocaleString("en-IN") %> x <span id="nights">0</span> nights</p>
+                                <hr>
+                                <h5>Total: &#8377;<span id="totalPrice">0</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-success">Confirm Booking</button>
+                    <a href="/listings/<%= listing._id %>" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="<%= listing.image %>" class="card-img-top" alt="<%= listing.title %>">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= listing.title %></h5>
+                        <p class="card-text"><%= listing.location %>, <%= listing.country %></p>
+                        <p class="card-text"><strong>&#8377;<%= listing.price.toLocaleString("en-IN") %></strong> / night</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Calculate total price dynamically
+    const checkInInput = document.getElementById('checkIn');
+    const checkOutInput = document.getElementById('checkOut');
+    const nightsSpan = document.getElementById('nights');
+    const totalPriceSpan = document.getElementById('totalPrice');
+    const pricePerNight = <%= listing.price %>
+    
+    function calculatePrice() {
+        const checkIn = new Date(checkInInput.value);
+        const checkOut = new Date(checkOutInput.value);
+        
+        if(checkIn && checkOut && checkOut > checkIn) {
+            const oneDay = 24 * 60 * 60 * 1000;
+            const nights = Math.round(Math.abs((checkOut - checkIn) / oneDay));
+            const total = nights * pricePerNight;
+            
+            nightsSpan.textContent = nights;
+            totalPriceSpan.textContent = total.toLocaleString("en-IN");
+        } else {
+            nightsSpan.textContent = "0";
+            totalPriceSpan.textContent = "0";
+        }
+    }
+    
+    checkInInput.addEventListener('change', calculatePrice);
+    checkOutInput.addEventListener('change', calculatePrice);
+</script>

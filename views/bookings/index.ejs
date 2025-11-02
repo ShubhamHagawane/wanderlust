@@ -1,0 +1,63 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="row mt-3">
+    <div class="col-10 offset-1">
+        <h2>My Bookings</h2>
+        <hr>
+        
+        <% if(bookings.length === 0) { %>
+            <div class="alert alert-info">
+                <p>You haven't made any bookings yet.</p>
+                <a href="/listings" class="btn btn-primary">Browse Listings</a>
+            </div>
+        <% } else { %>
+            <div class="row">
+                <% for(let booking of bookings) { %>
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img src="<%= booking.listing.image %>" class="img-fluid rounded-start" alt="<%= booking.listing.title %>" style="height: 100%; object-fit: cover;">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><%= booking.listing.title %></h5>
+                                        <p class="card-text">
+                                            <small class="text-muted">
+                                                <%= booking.listing.location %>, <%= booking.listing.country %>
+                                            </small>
+                                        </p>
+                                        
+                                        <p class="card-text">
+                                            <strong>Check-in:</strong> <%= booking.checkIn.toDateString() %><br>
+                                            <strong>Check-out:</strong> <%= booking.checkOut.toDateString() %><br>
+                                            <strong>Guests:</strong> <%= booking.guests %>
+                                        </p>
+                                        
+                                        <p class="card-text">
+                                            <strong>Total:</strong> &#8377;<%= booking.totalPrice.toLocaleString("en-IN") %>
+                                        </p>
+                                        
+                                        <p>
+                                            <% if(booking.status === 'pending') { %>
+                                                <span class="badge bg-warning">Pending</span>
+                                            <% } else if(booking.status === 'confirmed') { %>
+                                                <span class="badge bg-success">Confirmed</span>
+                                            <% } else if(booking.status === 'cancelled') { %>
+                                                <span class="badge bg-danger">Cancelled</span>
+                                            <% } else if(booking.status === 'completed') { %>
+                                                <span class="badge bg-secondary">Completed</span>
+                                            <% } %>
+                                        </p>
+                                        
+                                        <a href="/bookings/<%= booking._id %>" class="btn btn-sm btn-primary">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        <% } %>
+    </div>
+</div>
