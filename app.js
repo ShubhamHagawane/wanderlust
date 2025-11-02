@@ -18,7 +18,8 @@ const bookings = require("./routes/booking.js");  // Add this
 const categories = require("./routes/category.js");  // Add this
 const hostProfiles = require("./routes/hostProfile.js"); 
 
-const MONGO_URL = 'mongodb://127.0.0.1:27017/wanderlust_copy';
+const MONGO_URL = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/wanderlust_copy';
+
 
 
 
@@ -93,6 +94,7 @@ app.use((err,req,res,next)=>{
     res.status(statusCode).render("error.ejs", {err});
 });
 
-app.listen(8000 ,()=>{
-    console.log("server is listening on port");
+const port = process.env.PORT || 8000;
+app.listen(port, ()=>{
+    console.log(`Server is listening on port ${port}`);
 });
